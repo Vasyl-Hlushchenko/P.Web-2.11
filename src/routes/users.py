@@ -16,7 +16,7 @@ async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_
     return users
 
 
-@router.get("/find{some_info}", response_model=List[UserResponse])
+@router.get("/find/{some_info}", response_model=List[UserResponse])
 async def find_users_by_some_info(some_info: str, db: Session = Depends(get_db)):
     users = await repository_users.get_users_by_some_info(some_info, db)
     if users is None:
@@ -30,7 +30,7 @@ async def find_users_by_some_info(some_info: str, db: Session = Depends(get_db))
 #     return users
 
 
-@router.get("/birthday{days}", response_model=List[UserResponse])
+@router.get("/birthday/{days}", response_model=List[UserResponse])
 async def find_birthday_per_week(days: int, db: Session = Depends(get_db)):
     users = await repository_users.get_birthday_per_week(days, db)
     if users is None:
@@ -51,7 +51,7 @@ async def create_user(body: UserModel, db: Session = Depends(get_db)):
     return await repository_users.create_user(body, db)
 
 
-@router.put("/put{user_id}", response_model=UserResponse)
+@router.put("/put/{user_id}", response_model=UserResponse)
 async def update_user(body: UserModel, user_id: int, db: Session = Depends(get_db)):
     user = await repository_users.update_user(user_id, body, db)
     if user is None:
@@ -59,7 +59,7 @@ async def update_user(body: UserModel, user_id: int, db: Session = Depends(get_d
     return user
 
 
-@router.delete("/remove{user_id}", response_model=UserResponse)
+@router.delete("/remove/{user_id}", response_model=UserResponse)
 async def remove_user(user_id: int, db: Session = Depends(get_db)):
     user = await repository_users.remove_user(user_id, db)
     if user is None:
